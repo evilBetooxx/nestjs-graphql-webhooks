@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CarsModule } from './cars/cars.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
+import { MotorcycleModule } from './motorcycle/motorcycle.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { WebhooksModule } from './webhooks/webhooks.module';
     UserModule,
     CarsModule,
     WebhooksModule,
+    MotorcycleModule,
   ],
 
   controllers: [AppController],
