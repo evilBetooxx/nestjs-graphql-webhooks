@@ -1,12 +1,13 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
 import { Entity, ObjectIdColumn, ObjectId, Column, ManyToOne } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 
-@ObjectType()
-@Entity()
+@ObjectType('WebHook')
+@InputType('CreateWeebHookInput')
+@Entity('WebhHooks')
 export class Webhook {
   @ObjectIdColumn()
-  @Field()
+  @Field(() => ID)
   id: ObjectId;
 
   @Column()

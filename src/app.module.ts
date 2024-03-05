@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { JwtModule } from '@nestjs/jwt';
 
 import { AppController } from './app.controller';
 
@@ -27,6 +28,10 @@ import { MotorcycleModule } from './motorcycle/motorcycle.module';
       database: 'cars',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+    }),
+    JwtModule.register({
+      secret: 'ya no quiero estar en recu',
+      signOptions: { expiresIn: '1h' },
     }),
     HttpModule,
     AuthModule,

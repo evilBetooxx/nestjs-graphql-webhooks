@@ -1,7 +1,24 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+// webhook/dto/create-webhook.input.ts
+
+import { InputType, Field } from '@nestjs/graphql';
+import {
+  IsUrl,
+  IsArray,
+  ArrayNotEmpty,
+  ArrayUnique,
+  IsOptional,
+} from 'class-validator';
 
 @InputType()
 export class CreateWebhookInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  @IsUrl()
+  url: string;
+
+  @Field(() => [String], { nullable: true })
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  @ArrayUnique()
+  events?: string[];
 }

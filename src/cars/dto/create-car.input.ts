@@ -1,7 +1,21 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
+import { IsNotEmpty, IsString, IsInt, Min } from 'class-validator';
 
 @InputType()
 export class CreateCarInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  @IsNotEmpty()
+  @IsString()
+  brand: string;
+
+  @Field()
+  @IsNotEmpty()
+  @IsString()
+  model: string;
+
+  @Field(() => Int)
+  @IsNotEmpty()
+  @IsInt()
+  @Min(1900)
+  year: number;
 }

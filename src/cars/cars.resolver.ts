@@ -1,12 +1,13 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { CarsService } from './cars.service';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Car } from './entities/car.entity';
+import { CarService } from './cars.service';
 import { CreateCarInput } from './dto/create-car.input';
 import { UpdateCarInput } from './dto/update-car.input';
+import { ObjectId } from 'typeorm';
 
 @Resolver(() => Car)
 export class CarsResolver {
-  constructor(private readonly carsService: CarsService) {}
+  constructor(private readonly carsService: CarService) {}
 
   @Mutation(() => Car)
   createCar(@Args('createCarInput') createCarInput: CreateCarInput) {
@@ -19,17 +20,20 @@ export class CarsResolver {
   }
 
   @Query(() => Car, { name: 'car' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => ObjectId }) id: ObjectId) {
     return this.carsService.findOne(id);
   }
 
   @Mutation(() => Car)
-  updateCar(@Args('updateCarInput') updateCarInput: UpdateCarInput) {
-    return this.carsService.update(updateCarInput.id, updateCarInput);
+  updateCar(
+    @Args('id', { type: () => ObjectId }) id: ObjectId,
+    @Args('updateCarInput') updateCarInput: UpdateCarInput,
+  ) {
+    return this.carsService.update(id, updateCarInput);
   }
 
   @Mutation(() => Car)
-  removeCar(@Args('id', { type: () => Int }) id: number) {
+  removeCar(@Args('id', { type: () => ObjectId }) id: ObjectId) {
     return this.carsService.remove(id);
   }
 }

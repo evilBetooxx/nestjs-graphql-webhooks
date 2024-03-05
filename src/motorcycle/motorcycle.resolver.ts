@@ -1,35 +1,41 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { MotorcycleService } from './motorcycle.service';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Motorcycle } from './entities/motorcycle.entity';
+import { MotorcycleService } from './motorcycle.service';
 import { CreateMotorcycleInput } from './dto/create-motorcycle.input';
 import { UpdateMotorcycleInput } from './dto/update-motorcycle.input';
+import { ObjectId } from 'mongodb';
 
 @Resolver(() => Motorcycle)
 export class MotorcycleResolver {
-  constructor(private readonly motorcycleService: MotorcycleService) {}
+  constructor(private readonly motorcyclesService: MotorcycleService) {}
 
   @Mutation(() => Motorcycle)
-  createMotorcycle(@Args('createMotorcycleInput') createMotorcycleInput: CreateMotorcycleInput) {
-    return this.motorcycleService.create(createMotorcycleInput);
+  createMotorcycle(
+    @Args('createMotorcycleInput') createMotorcycleInput: CreateMotorcycleInput,
+  ) {
+    return this.motorcyclesService.create(createMotorcycleInput);
   }
 
-  @Query(() => [Motorcycle], { name: 'motorcycle' })
+  @Query(() => [Motorcycle], { name: 'motorcycles' })
   findAll() {
-    return this.motorcycleService.findAll();
+    return this.motorcyclesService.findAll();
   }
 
   @Query(() => Motorcycle, { name: 'motorcycle' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.motorcycleService.findOne(id);
+  findOne(@Args('id', { type: () => ObjectId }) id: ObjectId) {
+    return this.motorcyclesService.findOne(id);
   }
 
   @Mutation(() => Motorcycle)
-  updateMotorcycle(@Args('updateMotorcycleInput') updateMotorcycleInput: UpdateMotorcycleInput) {
-    return this.motorcycleService.update(updateMotorcycleInput.id, updateMotorcycleInput);
+  updateMotorcycle(
+    @Args('id', { type: () => ObjectId }) id: ObjectId,
+    @Args('updateMotorcycleInput') updateMotorcycleInput: UpdateMotorcycleInput,
+  ) {
+    return this.motorcyclesService.update(id, updateMotorcycleInput);
   }
 
   @Mutation(() => Motorcycle)
-  removeMotorcycle(@Args('id', { type: () => Int }) id: number) {
-    return this.motorcycleService.remove(id);
+  removeMotorcycle(@Args('id', { type: () => ObjectId }) id: ObjectId) {
+    return this.motorcyclesService.remove(id);
   }
 }

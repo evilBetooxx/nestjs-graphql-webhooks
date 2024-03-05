@@ -1,26 +1,47 @@
+// car/car.service.ts
+
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ObjectId, Repository } from 'typeorm';
+import { Car } from './entities/car.entity';
 import { CreateCarInput } from './dto/create-car.input';
 import { UpdateCarInput } from './dto/update-car.input';
+import mongoose from 'mongoose';
 
 @Injectable()
-export class CarsService {
-  create(createCarInput: CreateCarInput) {
-    return 'This action adds a new car';
+export class CarService {
+  constructor(
+    @InjectRepository(Car)
+    private readonly carRepository: Repository<Car>,
+  ) {}
+
+  async create(createCarInput: CreateCarInput): Promise<Car> {
+    const { brand, model, year } = createCarInput;
+    const car = this.carRepository.create({ brand, model, year });
+    return this.carRepository.save(car);
   }
 
-  findAll() {
-    return `This action returns all cars`;
+  async findAll(): Promise<Car[]> {
+    return this.carRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} car`;
+  async findOne(id: ObjectId): Promise<Car> {
+    const objectId = new mongoose.Types.ObjectId(id);
+    return this.carRepository.findOne({ where: { id: objectId } });
   }
 
-  update(id: number, updateCarInput: UpdateCarInput) {
-    return `This action updates a #${id} car`;
+  async update(
+    id: string | ObjectId,
+    updateCarInput: UpdateCarInput,
+  ): Promise<Car> {
+    const objectId = new ObjectId(id);
+    await this.carRepository.update(objectId, updateCarInput);
+    return this.carRepository.findOne({ where: { id: objectId } });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} car`;
+  async remove(id: ObjectId): Promise<boolean> {
+    const objectId = new ObjectId(id);
+    const result = await this.carRepository.delete(objectId);
+    return result.affected > 0;
   }
 }
