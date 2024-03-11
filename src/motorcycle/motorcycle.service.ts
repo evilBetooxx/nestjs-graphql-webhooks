@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, ObjectId } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Motorcycle } from './entities/motorcycle.entity';
 import { CreateMotorcycleInput } from './dto/create-motorcycle.input';
 import { UpdateMotorcycleInput } from './dto/update-motorcycle.input';
@@ -24,21 +24,19 @@ export class MotorcycleService {
     return this.motorcycleRepository.find();
   }
 
-  async findOne(id: ObjectId): Promise<Motorcycle> {
-    const objectId = new ObjectId(id);
-    return this.motorcycleRepository.findOne({ where: { id: objectId } });
+  async findOne(id: string): Promise<Motorcycle> {
+    return this.motorcycleRepository.findOne({ where: { id } });
   }
 
   async update(
-    id: ObjectId,
+    id: string,
     updateMotorcycleInput: UpdateMotorcycleInput,
   ): Promise<Motorcycle> {
-    const objectId = new ObjectId(id);
-    await this.motorcycleRepository.update(objectId, updateMotorcycleInput);
-    return this.motorcycleRepository.findOne({ where: { id: objectId } });
+    await this.motorcycleRepository.update(id, updateMotorcycleInput);
+    return this.motorcycleRepository.findOne({ where: { id } });
   }
 
-  async remove(id: ObjectId): Promise<boolean> {
+  async remove(id: string): Promise<boolean> {
     const result = await this.motorcycleRepository.delete(id);
     return result.affected > 0;
   }

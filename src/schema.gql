@@ -1,0 +1,119 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Webhook {
+  id: ID!
+  url: String!
+  events: [String!]
+  user: User!
+}
+
+type User {
+  id: ID!
+  username: String!
+  password: String!
+  webhooks: [Webhook!]
+}
+
+type AuthPayload {
+  token: String!
+}
+
+type Car {
+  id: ID!
+  brand: String!
+  model: String!
+  year: Float!
+}
+
+type Motorcycle {
+  id: ID!
+  brand: String!
+  model: String!
+  year: Float!
+}
+
+type Query {
+  getToken: String!
+  users: [User!]!
+  userById(id: String!): User!
+  userByUsername(username: String!): User!
+  cars: [Car!]!
+  car(id: String!): Car!
+  webhooks: [Webhook!]!
+  webhook(id: String!): Webhook!
+  motorcycles: [Motorcycle!]!
+  motorcycle(id: String!): Motorcycle!
+}
+
+type Mutation {
+  signUp(registerAuthDto: RegisterAuthDto!): AuthPayload!
+  signIn(loginAuthDto: LoginAuthDto!): AuthPayload!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  createCar(createCarInput: CreateCarInput!): Car!
+  updateCar(id: String!, updateCarInput: UpdateCarInput!): Car!
+  removeCar(id: String!): Car!
+  createWebhook(createWebhookInput: CreateWebhookInput!): Webhook!
+  updateWebhook(id: String!, updateWebhookInput: UpdateWebhookInput!): Webhook!
+  removeWebhook(id: String!): Webhook!
+  createMotorcycle(createMotorcycleInput: CreateMotorcycleInput!): Motorcycle!
+  updateMotorcycle(id: String!, updateMotorcycleInput: UpdateMotorcycleInput!): Motorcycle!
+  removeMotorcycle(id: String!): Motorcycle!
+}
+
+input RegisterAuthDto {
+  username: String
+  password: String
+}
+
+input LoginAuthDto {
+  username: String!
+  password: String!
+}
+
+input CreateUserInput {
+  username: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  username: String
+  password: String
+}
+
+input CreateCarInput {
+  brand: String!
+  model: String!
+  year: Int!
+}
+
+input UpdateCarInput {
+  brand: String
+  model: String
+  year: Int!
+}
+
+input CreateWebhookInput {
+  url: String!
+  events: [String!]
+}
+
+input UpdateWebhookInput {
+  url: String
+  events: [String!]
+}
+
+input CreateMotorcycleInput {
+  brand: String!
+  model: String!
+  year: Int!
+}
+
+input UpdateMotorcycleInput {
+  brand: String
+  model: String
+  year: Int!
+}

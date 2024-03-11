@@ -3,7 +3,6 @@ import { Webhook } from './entities/webhook.entity';
 import { WebhooksService } from './webhooks.service';
 import { CreateWebhookInput } from './dto/create-webhook.input';
 import { UpdateWebhookInput } from './dto/update-webhook.input';
-import { ObjectId } from 'mongodb';
 
 @Resolver(() => Webhook)
 export class WebhooksResolver {
@@ -22,20 +21,20 @@ export class WebhooksResolver {
   }
 
   @Query(() => Webhook, { name: 'webhook' })
-  findOne(@Args('id', { type: () => ObjectId }) id: ObjectId) {
+  findOne(@Args('id') id: string) {
     return this.webhooksService.findOne(id);
   }
 
   @Mutation(() => Webhook)
   updateWebhook(
-    @Args('id', { type: () => ObjectId }) id: ObjectId,
+    @Args('id') id: string,
     @Args('updateWebhookInput') updateWebhookInput: UpdateWebhookInput,
   ) {
     return this.webhooksService.update(id, updateWebhookInput);
   }
 
   @Mutation(() => Webhook)
-  removeWebhook(@Args('id', { type: () => ObjectId }) id: ObjectId) {
+  removeWebhook(@Args('id') id: string) {
     return this.webhooksService.remove(id);
   }
 }

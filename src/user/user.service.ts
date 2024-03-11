@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
-import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class UserService {
@@ -23,7 +22,7 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async findOne(id: ObjectId): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.userRepository.findOne({ where: { id } });
   }
 
@@ -31,12 +30,12 @@ export class UserService {
     return this.userRepository.findOne({ where: { username } });
   }
 
-  async update(id: ObjectId, updateUserInput: UpdateUserInput): Promise<User> {
+  async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
     await this.userRepository.update(id, updateUserInput);
     return this.userRepository.findOne({ where: { id } });
   }
 
-  async remove(id: ObjectId): Promise<boolean> {
+  async remove(id: string): Promise<boolean> {
     const result = await this.userRepository.delete(id);
     return result.affected > 0;
   }

@@ -1,5 +1,3 @@
-// webhook/dto/update-webhook.input.ts
-
 import { InputType, Field } from '@nestjs/graphql';
 import {
   IsUrl,

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, ObjectId } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Webhook } from './entities/webhook.entity';
 import { CreateWebhookInput } from './dto/create-webhook.input';
 import { UpdateWebhookInput } from './dto/update-webhook.input';
@@ -22,21 +22,19 @@ export class WebhooksService {
     return this.webhookRepository.find();
   }
 
-  async findOne(id: ObjectId): Promise<Webhook> {
-    const objectId = new ObjectId(id);
-    return this.webhookRepository.findOne({ where: { id: objectId } });
+  async findOne(id: string): Promise<Webhook> {
+    return this.webhookRepository.findOne({ where: { id } });
   }
 
   async update(
-    id: ObjectId,
+    id: string,
     updateWebhookInput: UpdateWebhookInput,
   ): Promise<Webhook> {
-    const objectId = new ObjectId(id);
-    await this.webhookRepository.update(objectId, updateWebhookInput);
-    return this.webhookRepository.findOne({ where: { id: objectId } });
+    await this.webhookRepository.update(id, updateWebhookInput);
+    return this.webhookRepository.findOne({ where: { id } });
   }
 
-  async remove(id: ObjectId): Promise<boolean> {
+  async remove(id: string): Promise<boolean> {
     const result = await this.webhookRepository.delete(id);
     return result.affected > 0;
   }

@@ -3,7 +3,6 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { ObjectId } from 'mongodb';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -20,7 +19,7 @@ export class UserResolver {
   }
 
   @Query(() => User, { name: 'userById' })
-  async findOneById(@Args('id') id: ObjectId) {
+  async findOneById(@Args('id') id: string) {
     return this.userService.findOne(id);
   }
 
@@ -31,14 +30,14 @@ export class UserResolver {
 
   @Mutation(() => User)
   async updateUser(
-    @Args('id') id: ObjectId,
+    @Args('id') id: string,
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
     return this.userService.update(id, updateUserInput);
   }
 
   @Mutation(() => User)
-  async removeUser(@Args('id') id: ObjectId) {
+  async removeUser(@Args('id') id: string) {
     return this.userService.remove(id);
   }
 }

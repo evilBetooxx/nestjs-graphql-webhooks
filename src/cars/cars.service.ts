@@ -25,23 +25,17 @@ export class CarService {
     return this.carRepository.find();
   }
 
-  async findOne(id: ObjectId): Promise<Car> {
-    const objectId = new mongoose.Types.ObjectId(id);
-    return this.carRepository.findOne({ where: { id: objectId } });
+  async findOne(id: string): Promise<Car> {
+    return this.carRepository.findOne({ where: { id } });
   }
 
-  async update(
-    id: string | ObjectId,
-    updateCarInput: UpdateCarInput,
-  ): Promise<Car> {
-    const objectId = new ObjectId(id);
-    await this.carRepository.update(objectId, updateCarInput);
-    return this.carRepository.findOne({ where: { id: objectId } });
+  async update(id: string, updateCarInput: UpdateCarInput): Promise<Car> {
+    await this.carRepository.update(id, updateCarInput);
+    return this.carRepository.findOne({ where: { id } });
   }
 
-  async remove(id: ObjectId): Promise<boolean> {
-    const objectId = new ObjectId(id);
-    const result = await this.carRepository.delete(objectId);
+  async remove(id: string): Promise<boolean> {
+    const result = await this.carRepository.delete(id);
     return result.affected > 0;
   }
 }

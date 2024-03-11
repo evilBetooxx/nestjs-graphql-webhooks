@@ -1,13 +1,12 @@
-import { Entity, ObjectIdColumn, ObjectId, Column } from 'typeorm';
-import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
+import { Entity, ObjectIdColumn, Column } from 'typeorm';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 
-@ObjectType('MotorCycle')
-@InputType('MotorCycleInput')
-@Entity('Motorcycles')
+@ObjectType()
+@Entity()
 export class Motorcycle {
   @Field(() => ID)
   @ObjectIdColumn()
-  id: ObjectId;
+  id: string;
 
   @Field()
   @Column()

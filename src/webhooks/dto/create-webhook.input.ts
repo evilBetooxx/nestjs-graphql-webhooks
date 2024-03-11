@@ -1,5 +1,3 @@
-// webhook/dto/create-webhook.input.ts
-
 import { InputType, Field } from '@nestjs/graphql';
 import {
   IsUrl,
@@ -20,5 +18,5 @@ export class CreateWebhookInput {
   @IsArray()
   @ArrayNotEmpty()
   @ArrayUnique()
-  events?: string[];
+  events: string[];
 }

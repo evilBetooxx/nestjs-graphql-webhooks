@@ -22,20 +22,20 @@ export class MotorcycleResolver {
   }
 
   @Query(() => Motorcycle, { name: 'motorcycle' })
-  findOne(@Args('id', { type: () => ObjectId }) id: ObjectId) {
+  findOne(@Args('id') id: string) {
     return this.motorcyclesService.findOne(id);
   }
 
   @Mutation(() => Motorcycle)
   updateMotorcycle(
-    @Args('id', { type: () => ObjectId }) id: ObjectId,
+    @Args('id') id: string,
     @Args('updateMotorcycleInput') updateMotorcycleInput: UpdateMotorcycleInput,
   ) {
     return this.motorcyclesService.update(id, updateMotorcycleInput);
   }
 
   @Mutation(() => Motorcycle)
-  removeMotorcycle(@Args('id', { type: () => ObjectId }) id: ObjectId) {
+  removeMotorcycle(@Args('id') id: string) {
     return this.motorcyclesService.remove(id);
   }
 }

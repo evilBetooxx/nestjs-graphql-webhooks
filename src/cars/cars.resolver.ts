@@ -20,20 +20,20 @@ export class CarsResolver {
   }
 
   @Query(() => Car, { name: 'car' })
-  findOne(@Args('id', { type: () => ObjectId }) id: ObjectId) {
+  findOne(@Args('id') id: string) {
     return this.carsService.findOne(id);
   }
 
   @Mutation(() => Car)
   updateCar(
-    @Args('id', { type: () => ObjectId }) id: ObjectId,
+    @Args('id') id: string,
     @Args('updateCarInput') updateCarInput: UpdateCarInput,
   ) {
     return this.carsService.update(id, updateCarInput);
   }
 
   @Mutation(() => Car)
-  removeCar(@Args('id', { type: () => ObjectId }) id: ObjectId) {
+  removeCar(@Args('id') id: string) {
     return this.carsService.remove(id);
   }
 }
