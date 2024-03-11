@@ -8,9 +8,9 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from './guard/public.decorator';
 import { Reflector } from '@nestjs/core';
-import { config } from "dotenv"
+import { config } from 'dotenv';
 
-config()
+config();
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     const request = context.switchToHttp().getRequest();
-    console.log(request)
+    console.log(request);
     const token = this.extractTokenFromHeader(request);
     if (!token) {
       throw new UnauthorizedException();
@@ -48,7 +48,7 @@ export class AuthGuard implements CanActivate {
     if (!request || !request.headers) {
       return undefined;
     }
-    console.log(request)
+    console.log(request);
     const authorizationHeader = request.headers.authorization;
     if (!authorizationHeader) {
       return undefined;

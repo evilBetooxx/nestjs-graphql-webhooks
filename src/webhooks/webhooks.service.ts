@@ -29,7 +29,6 @@ export class WebhooksService {
     }
     return webhook;
   }
-  
 
   async update(
     id: string,

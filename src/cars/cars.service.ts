@@ -45,7 +45,7 @@ export class CarService {
   }
 
   async findOne(id: string): Promise<Car> {
-    return this.carRepository.findOne({ where: { id } });
+    return await this.carRepository.findOne({ where: { id } });
   }
 
   async update(id: string, updateCarInput: UpdateCarInput): Promise<Car> {
