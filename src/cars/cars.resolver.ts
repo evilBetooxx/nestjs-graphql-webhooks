@@ -3,8 +3,9 @@ import { Car } from './entities/car.entity';
 import { CarService } from './cars.service';
 import { CreateCarInput } from './dto/create-car.input';
 import { UpdateCarInput } from './dto/update-car.input';
-import { ObjectId } from 'typeorm';
+import { Public } from 'src/auth/guard/public.decorator';
 
+@Public()
 @Resolver(() => Car)
 export class CarsResolver {
   constructor(private readonly carsService: CarService) {}

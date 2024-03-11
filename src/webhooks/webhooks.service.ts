@@ -23,8 +23,13 @@ export class WebhooksService {
   }
 
   async findOne(id: string): Promise<Webhook> {
-    return this.webhookRepository.findOne({ where: { id } });
+    const webhook = await this.webhookRepository.findOne({ where: { id } });
+    if (!webhook) {
+      throw new Error(`Webhook with ID ${id} not found`);
+    }
+    return webhook;
   }
+  
 
   async update(
     id: string,

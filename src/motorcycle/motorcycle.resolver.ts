@@ -3,8 +3,9 @@ import { Motorcycle } from './entities/motorcycle.entity';
 import { MotorcycleService } from './motorcycle.service';
 import { CreateMotorcycleInput } from './dto/create-motorcycle.input';
 import { UpdateMotorcycleInput } from './dto/update-motorcycle.input';
-import { ObjectId } from 'mongodb';
+import { Public } from 'src/auth/guard/public.decorator';
 
+@Public()
 @Resolver(() => Motorcycle)
 export class MotorcycleResolver {
   constructor(private readonly motorcyclesService: MotorcycleService) {}

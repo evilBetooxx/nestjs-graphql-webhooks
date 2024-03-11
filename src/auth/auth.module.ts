@@ -5,13 +5,15 @@ import { AuthResolver } from './auth.resolver';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { config } from 'dotenv';
 
+config()
 @Module({
   imports: [
     UserModule,
     JwtModule.register({
       global: true,
-      secret: 'esta api no es segura',
+      secret: process.env.SECRET,
       signOptions: { expiresIn: '1h' },
     }),
   ],

@@ -41,12 +41,12 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('Contraseña Incorrecta');
     }
-    const token = await this.jwtService.signAsync({ sub: user.id });
+    const payload = { sub: user.id, username: user.username };
 
-    return { token };
+    return { token: await this.jwtService.signAsync(payload) };
   }
 
-  async getToken (): Promise<string> {
-    return this.jwtService.sign({ sub: 1 })
+  async getToken(): Promise<string> {
+    return this.jwtService.sign({ sub: 1 });
   }
 }

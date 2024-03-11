@@ -3,7 +3,9 @@ import { Webhook } from './entities/webhook.entity';
 import { WebhooksService } from './webhooks.service';
 import { CreateWebhookInput } from './dto/create-webhook.input';
 import { UpdateWebhookInput } from './dto/update-webhook.input';
+import { Public } from 'src/auth/guard/public.decorator';
 
+@Public()
 @Resolver(() => Webhook)
 export class WebhooksResolver {
   constructor(private readonly webhooksService: WebhooksService) {}
