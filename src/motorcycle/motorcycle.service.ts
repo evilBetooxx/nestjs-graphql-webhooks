@@ -4,12 +4,16 @@ import { Repository } from 'typeorm';
 import { Motorcycle } from './entities/motorcycle.entity';
 import { CreateMotorcycleInput } from './dto/create-motorcycle.input';
 import { UpdateMotorcycleInput } from './dto/update-motorcycle.input';
+import { Webhook } from 'src/webhooks/entities/webhook.entity';
+import axios from 'axios';
 
 @Injectable()
 export class MotorcycleService {
   constructor(
     @InjectRepository(Motorcycle)
     private readonly motorcycleRepository: Repository<Motorcycle>,
+    @InjectRepository(Webhook)
+    private readonly webhookRepository: Repository<Webhook>,
   ) {}
 
   async create(
@@ -17,6 +21,24 @@ export class MotorcycleService {
   ): Promise<Motorcycle> {
     const { brand, model, year } = createMotorcycleInput;
     const motorcycle = this.motorcycleRepository.create({ brand, model, year });
+    // Obtener todos los webhooks registrados
+    const webhooks = await this.webhookRepository.find();
+    // Enviar una solicitud POST a cada URL con los datos del nuevo carro
+    for (const webhook of webhooks) {
+      for (const event of webhook.events) {
+        if (event === 'newMotorcycle') {
+          try {
+            await axios.post(webhook.url, {
+              brand,
+              model,
+              year,
+            });
+          } catch (error) {
+            console.error(`Error al enviar webhook a ${webhook.url}:`, error);
+          }
+        }
+      }
+    }
     return this.motorcycleRepository.save(motorcycle);
   }
 
